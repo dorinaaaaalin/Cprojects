@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+/*This project asks the user to prompt a number called speard and another number called number of rectangles
+ *The user also has to put into the lower bound and upper bound of the integral.
+ *After the user puts in the numbers, the computer will generate the integral based on the for loop. 
+ */
+
+//function
+double gaussFunc(double x, double spread){
+    double function = exp(- pow(x, 2)/ spread);
+    return function;
+}
+
+int main(int argc, char** argv) {
+    double userSpread = -1;
+    int n = 1;
+    double a,b;
+    double integral;
+    //prompts the user to put userSpread
+    while(userSpread <= 0){
+        printf("Enter the spread value (must be >0): ");
+        scanf("%lf", &userSpread);
+    }
+    //Prompt the user to put in number of rectangles
+    while(n >= 1){
+        int n;
+        printf("Please enter the number of rectangles (n): ");
+        scanf("%d", &n);
+        //exit the loop if number of rectangles is smaller than 1
+        if(n < 1){
+            printf("Exiting.");
+            exit(0);
+        }
+        //if its not then continue calculating
+        else{
+            double a = 3.0;
+            double b = 1.0;
+            //since a can not be smaller than be 
+            while(a > b)
+            {
+                //prompt the user to put in lower and upper bounds
+                printf("Enter the interval of integration (a b): ");
+                scanf("%lf %lf", &a, &b);
+                //tell the user its invalid if a is bigger than b
+                if(a > b)
+                {
+                    printf("Invalid interval!\n");
+                }
+            }
+            double width = (b-a)/n;
+            //for loop calculating the final integral
+            for(double userX = a + width/2; userX <= b; userX = userX + width)
+            {
+                integral = integral + width * gaussFunc(userX,userSpread);
+        
+            }
+            //print the final result
+            printf("Integral of Gaussian with spread %.3lf on [%.3lf, %.3lf] with n = %d is: %.3lf\n\n", userSpread, a, b, n, integral);
+            //clear the integral after every round
+            integral = 0;
+        }
+    }
+    return (EXIT_SUCCESS);
+}
+

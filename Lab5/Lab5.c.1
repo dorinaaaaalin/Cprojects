@@ -1,0 +1,84 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+/*This program solves a search program.
+ * It searches the DNA array with userINput
+ */
+
+//this function stores the user input array to the main array
+char* readSequence(int sequenceLength,char userInput[sequenceLength]){
+    char * sequenceInput;
+    sequenceInput = &userInput;
+    //scans in each element one by one
+    for(int i=0; i < sequenceLength; i++){
+        scanf(" %c", &userInput[i]);
+    }
+    return sequenceInput;
+}
+//this function searches the DNA array and prints the index where the userInput 
+void searchSequence(char DNA[],int sequenceLength, char userInput[sequenceLength]){
+    int index;
+    int count = 0;
+    bool work = false;
+        //for loop that checks the DNA
+        for(int i=0; i <= 100 && !work; i++){
+            count = 0; 
+            //for loop checks the user input
+            for(int j=0; j < sequenceLength && !work; j++){ 
+                //if the dna matches count adds one or if theres a star in user input then count adds one too
+                if(DNA[i+j]==userInput[j] || userInput[j]=='*'){ 
+                    index = i;
+                    count++;
+                }
+                //if count is the same as the sequence length then print the index
+                if (count == sequenceLength && (index+sequenceLength)<100) {
+                    printf("Match of search sequence found at element %d\n", index);
+                }
+        }
+    }
+    
+}
+int main(int argc, char** argv) {
+    int length;
+    bool work = true;
+    //dna array is stored in main
+    char DNA[] = {'A', 'G', 'C', 'G', 'G', 'G', 'A', 'C', 'C', 'G', 'T', 'C', 
+	      'C', 'C', 'G', 'A', 'C', 'A', 'T', 'T', 'G', 'A', 'T', 'G', 
+	      'A', 'A', 'G', 'G', 'G', 'T', 'C', 'A', 'T', 'A', 'G', 'A', 
+	      'C', 'C', 'C', 'A', 'A', 'T', 'A', 'C', 'G', 'C', 'C', 'A', 
+	      'C', 'C', 'A', 'C', 'C', 'C', 'C', 'A', 'A', 'G', 'T', 'T', 
+	      'T', 'T', 'C', 'C', 'T', 'G', 'T', 'G', 'T', 'C', 'T', 'T', 
+	      'C', 'C', 'A', 'T', 'T', 'G', 'A', 'G', 'T', 'A', 'G', 'A', 
+	      'T', 'T', 'G', 'A', 'C', 'A', 'C', 'T', 'C', 'C', 'C', 'A', 
+	      'G', 'A', 'T', 'G', '\0'};
+    //prompts the user for length of user input
+    printf("Enter length of DNA sequence to match: ");
+    scanf("%d", &length);
+    //creates a new array for userinput
+    char userInput[length];
+    
+    while(length>0 && work){
+    printf("Enter %d characters (one of AGTC*) as a search sequence: ", length);
+            //Checks characters other than AGCT*
+             readSequence(length, userInput);
+             for(int i=0; i<length; i++){
+                 if(userInput[i]!='A'&& userInput[i]!='G'&& userInput[i]!='C'&& userInput[i]!='T'&& userInput[i]!='*'){
+                     printf("Erroneous character input '%c' exiting\n", userInput[i]);
+                     work=false;
+                 }
+             }
+             searchSequence(DNA, length, userInput);
+             if(work){
+             printf("Enter length of DNA sequence to match: ");
+             scanf("%d", &length);
+             }
+    
+    }
+    printf("Goodbye");
+    return (EXIT_SUCCESS);
+    
+}
+
